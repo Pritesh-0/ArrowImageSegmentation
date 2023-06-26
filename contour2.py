@@ -8,8 +8,8 @@ def increase_contrast(image):
     high_pass = cv2.filter2D(image, -1, kernel)
     #contrast = cv2.subtract(image, high_pass)
 
-    blurred = cv2.GaussianBlur(high_pass, (9, 9), 6)
-    _, final_image = cv2.threshold(blurred, 180, 255, cv2.THRESH_BINARY)
+    blurred = cv2.GaussianBlur(high_pass, (7, 7), 3)
+    _, final_image = cv2.threshold(blurred, 70, 200, cv2.THRESH_BINARY)
 
     return final_image
 # Load the image
@@ -38,7 +38,7 @@ for contour in contours1:
     aspect_ratio = w / float(h)
     
     # Adjust the following conditions as per your requirements
-    if area > 1000 and area<8000  and aspect_ratio > 1 and aspect_ratio < 4:
+    if area > 1000  and area < 8000 and aspect_ratio > 1 and aspect_ratio < 4:
         filtered_contours.append(contour)
 print(len(filtered_contours))
 # Identify the arrow
@@ -50,8 +50,10 @@ for contour in filtered_contours:
 	ret.append((rt,x,y,w,h))
 	#cv2.drawContours(image, contour, -1, (0, 255, 0), 2)
 print(ret)
+#_,x,y,w,h=ret[4]
 _,x,y,w,h=min(ret)
-cv2.rectangle(image, (x, y), (x + w, y + h), (200, 0, 0), 2)
+print(_,w,h)
+cv2.rectangle(image, (x, y), (x + w, y + h), (100, 100, 200), 3)
 cv2.imshow('Result', image)
 cv2.waitKey(0)
 cv2.destroyAllWindows()
